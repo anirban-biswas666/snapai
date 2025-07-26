@@ -1,6 +1,6 @@
 import sql from "../configs/db.js";
 
-//  Get creations for a user
+// Get creations for a user
 export const getUserCreations = async (req, res) => {
   try {
     const { userId } = req.auth();
@@ -11,7 +11,7 @@ export const getUserCreations = async (req, res) => {
       ORDER BY created_at DESC
     `;
 
-    res.json({ success: true, message: creations });
+    res.json({ success: true, creations }); // ✅ fixed response key
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
@@ -45,7 +45,6 @@ export const toggleLikeCreation = async (req, res) => {
       message = "Creation liked";
     }
 
-    //  Neon supports text[] natively
     await sql`
       UPDATE creations 
       SET likes = ${updatedLikes}::text[] 
@@ -58,7 +57,7 @@ export const toggleLikeCreation = async (req, res) => {
   }
 };
 
-//  Get published creations
+// Get published creations
 export const getPublishedCreations = async (req, res) => {
   try {
     const creations = await sql`
@@ -67,7 +66,7 @@ export const getPublishedCreations = async (req, res) => {
       ORDER BY created_at DESC
     `;
 
-    res.json({ success: true, message: creations });
+    res.json({ success: true, creations }); // ✅ fixed response key
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
